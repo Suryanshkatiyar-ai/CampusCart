@@ -1,0 +1,144 @@
+
+{% extends "base.html" %}
+
+{% block title %}Post an Item | CampusCart{% endblock %}
+
+{% block content %}
+
+<section class="listing-section">
+
+    <div class="listing-heading">
+
+        <span class="eyebrow">GIVE YOUR ITEMS A NEW LIFE</span>
+
+        <h1>
+            Create a <span class="gradient-text">listing.</span>
+        </h1>
+
+        <p>
+            Sell it, rent it or let another student borrow it.
+        </p>
+
+    </div>
+
+
+    <div class="listing-form-card">
+
+        <form method="POST"
+              action="{{ url_for('main.create_listing') }}">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <label>Product Name *</label>
+
+            <input type="text"
+                   name="title"
+                   placeholder="e.g. Engineering Mathematics Book"
+                   maxlength="120"
+                   required>
+
+
+            <label>Product Description *</label>
+
+            <textarea name="description"
+                      placeholder="Describe your product, its condition and other details..."
+                      maxlength="2000"
+                      rows="4"
+                      required></textarea>
+
+
+            <div class="listing-form-grid">
+
+                <div>
+                    <label>Category *</label>
+
+                    <select name="category" required>
+
+                        <option value="">Select category</option>
+                        <option value="Books">Books</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Stationery">Stationery</option>
+                        <option value="Lab Essentials">Lab Essentials</option>
+                        <option value="Other">Other</option>
+
+                    </select>
+                </div>
+
+
+                <div>
+                    <label>Product Condition *</label>
+
+                    <select name="condition" required>
+
+                        <option value="">Select condition</option>
+                        <option value="New">New</option>
+                        <option value="Like New">Like New</option>
+                        <option value="Good">Good</option>
+                        <option value="Fair">Fair</option>
+
+                    </select>
+                </div>
+
+            </div>
+
+
+            <label>What do you want to do? *</label>
+
+            <select name="listing_type"
+                    id="listing-type"
+                    required>
+
+                <option value="">Choose listing type</option>
+                <option value="SELL">Sell</option>
+                <option value="RENT">Rent</option>
+                <option value="BORROW">Borrow - Free</option>
+
+            </select>
+
+
+            <label>Price (₹) *</label>
+
+            <input type="number"
+                   name="price"
+                   id="listing-price"
+                   placeholder="Enter your price"
+                   min="1"
+                   max="99999999.99"
+                   step="0.01"
+                   required>
+
+            <p class="field-hint" id="price-hint">
+                Enter your selling price or rental charge.
+            </p>
+
+
+            <label>Product Image URL (Optional)</label>
+
+            <input type="url"
+                   name="image_url"
+                   placeholder="https://example.com/product-image.jpg"
+                   maxlength="500">
+
+            <p class="field-hint">
+                You can add direct image URLs here.
+                Photo uploads will be added with cloud storage later.
+            </p>
+
+
+            <button type="submit" class="listing-submit">
+                Publish My Listing ↗
+            </button>
+
+        </form>
+
+        <p class="listing-note">
+            ✦ Your listing will be connected to your student account.
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

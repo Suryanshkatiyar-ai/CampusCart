@@ -1,0 +1,57 @@
+
+{% extends "base.html" %}
+
+{% block title %}Login | CampusCart{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="auth-card">
+
+        <span class="eyebrow">WELCOME BACK TO CAMPUSCART</span>
+
+        <h1>Good to see <span class="gradient-text">you.</span></h1>
+
+        <p class="auth-subtitle">
+            Login to continue your campus marketplace journey.
+        </p>
+
+        <form method="POST" action="{{ url_for('main.login') }}">
+
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <label>Email Address</label>
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+            >
+
+            <label>Password</label>
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+            >
+
+            <button type="submit" class="auth-submit">
+                Login to CampusCart ↗
+            </button>
+
+        </form>
+
+        <p class="auth-switch">
+            New to CampusCart?
+            <a href="{{ url_for('main.register') }}">Create Account</a>
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

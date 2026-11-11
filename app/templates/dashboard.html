@@ -1,0 +1,97 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Dashboard | CampusCart{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-section">
+
+    <div class="dashboard-welcome">
+
+        <span class="eyebrow">YOUR CAMPUS SPACE</span>
+
+        <h1>
+            Hey, <span class="gradient-text">{{ user.full_name }}</span>!
+        </h1>
+
+        <p>Welcome to your personal CampusCart dashboard.</p>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+
+            <span class="dashboard-icon">👤</span>
+
+            <h3>Student Profile</h3>
+
+            <p>{{ user.full_name }}</p>
+            <p>{{ user.email }}</p>
+            <p>{{ user.college }}</p>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <span class="dashboard-icon">✦</span>
+
+            <h3>Account Role</h3>
+
+            <p class="role-label">{{ user.role|upper }}</p>
+
+            <p>Your account has student-level access.</p>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <span class="dashboard-icon">🛡️</span>
+
+            <h3>Verification Status</h3>
+
+            {% if user.is_verified %}
+
+                <span class="status-verified">
+                    ✓ Verified
+                </span>
+
+            {% else %}
+
+                <span class="status-pending">
+                    ◷ Pending Verification
+                </span>
+
+                <p>Your account is awaiting verification.</p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-action">
+
+        <h2>Ready to explore?</h2>
+
+        <p>Discover books, electronics and campus essentials.</p>
+
+        <a href="{{ url_for('main.home') }}#marketplace"
+           class="primary-btn">
+            Explore Marketplace ↗
+        </a>
+        <a href="{{ url_for('main.create_listing') }}"
+   class="glass-btn">
+    + Post an Item
+</a>
+
+    </div>
+
+</section>
+
+{% endblock %}

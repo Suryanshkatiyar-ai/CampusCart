@@ -1,0 +1,370 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+CampusCart | Smart Campus Marketplace
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+
+<section class="hero">
+
+    <div class="hero-copy reveal">
+
+        <div class="eyebrow">
+            <span class="live-dot"></span>
+            THE STUDENT-ONLY MARKETPLACE
+        </div>
+
+        <h1>
+            Don't just<br>
+            buy <span class="gradient-text">it.</span><br>
+            <span class="outline-text">Pass it on.</span>
+        </h1>
+
+        <p class="hero-description">
+            Your campus has everything you need.
+            Discover pre-loved essentials, rent what you need
+            and give unused things a second life.
+        </p>
+
+        <div class="hero-actions">
+
+            <a href="#marketplace" class="primary-btn">
+                Explore Marketplace <span>↗</span>
+            </a>
+
+            <a href="#features" class="glass-btn">
+                Discover More ↓
+            </a>
+
+        </div>
+
+        <div class="hero-social">
+
+            <div class="mini-avatars">
+                <span>S</span>
+                <span>A</span>
+                <span>R</span>
+                <span>+</span>
+            </div>
+
+            <div>
+                <strong>Made for campus life</strong>
+                <p>Buy · Sell · Rent · Borrow</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-visual reveal">
+
+        <div class="hero-image-wrap">
+
+            <img
+                src="https://burst.shopifycdn.com/photos/school-supplies-knolling.jpg?width=1400&format=pjpg"
+                alt="Real student study essentials"
+                class="hero-photo"
+            >
+
+            <div class="image-overlay"></div>
+
+            <div class="photo-caption">
+                <span>THE CAMPUS EDITION</span>
+                <strong>Everything finds<br>a new purpose.</strong>
+            </div>
+
+        </div>
+
+        <div class="float-card float-one">
+            <span class="float-icon">♻</span>
+            <div>
+                <strong>Reuse culture</strong>
+                <p>Waste less. Share more.</p>
+            </div>
+        </div>
+
+        <div class="float-card float-two">
+            <span class="float-icon">✦</span>
+            <div>
+                <strong>Student first</strong>
+                <p>Made for your campus.</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- STATS STRIP -->
+
+<section class="stats-strip reveal">
+
+    <div>
+        <strong>01</strong>
+        <span>Buy & Sell</span>
+    </div>
+
+    <div>
+        <strong>02</strong>
+        <span>Rent & Borrow</span>
+    </div>
+
+    <div>
+        <strong>03</strong>
+        <span>Smart Semester Kits</span>
+    </div>
+
+    <div>
+        <strong>04</strong>
+        <span>Wanted Matching</span>
+    </div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section class="features-section" id="features">
+
+    <div class="section-heading reveal">
+        <span class="eyebrow">NOT JUST ANOTHER SHOPPING SITE</span>
+
+        <h2>
+            A smarter way to<br>
+            <span class="gradient-text">campus living.</span>
+        </h2>
+
+        <p>
+            One platform. More possibilities.
+            Built around how students actually live.
+        </p>
+    </div>
+
+
+    <div class="feature-grid">
+
+        <article class="feature-card reveal">
+
+            <div class="feature-top">
+                <span class="feature-icon">↗</span>
+                <span class="feature-number">01</span>
+            </div>
+
+            <h3>Buy & Sell</h3>
+
+            <p>
+                Give your unused books, electronics
+                and campus essentials a new owner.
+            </p>
+
+            <span class="feature-link">Explore listings ↗</span>
+
+        </article>
+
+
+        <article class="feature-card reveal">
+
+            <div class="feature-top">
+                <span class="feature-icon">⟳</span>
+                <span class="feature-number">02</span>
+            </div>
+
+            <h3>Rent & Borrow</h3>
+
+            <p>
+                Need something for just a few days?
+                Rent or borrow instead of buying.
+            </p>
+
+            <span class="feature-link">Share resources ↗</span>
+
+        </article>
+
+
+        <article class="feature-card reveal" id="smart-kits">
+
+            <div class="feature-top">
+                <span class="feature-icon">✦</span>
+                <span class="feature-number">03</span>
+            </div>
+
+            <h3>Smart Semester Kits</h3>
+
+            <p>
+                Get course-based recommendations
+                for your academic essentials.
+            </p>
+
+            <span class="feature-link">Build your kit ↗</span>
+
+        </article>
+
+
+        <article class="feature-card reveal">
+
+            <div class="feature-top">
+                <span class="feature-icon">⌕</span>
+                <span class="feature-number">04</span>
+            </div>
+
+            <h3>Wanted Products</h3>
+
+            <p>
+                Can't find something? Post a request
+                and match with other students.
+            </p>
+
+            <span class="feature-link">Find your match ↗</span>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- MARKETPLACE -->
+
+<section class="marketplace-section" id="marketplace">
+
+    <div class="market-heading reveal">
+
+        <div>
+            <span class="eyebrow">HANDPICKED FOR STUDENTS</span>
+            <h2>Explore the <span class="gradient-text">market.</span></h2>
+            <p>Useful things. Better prices. Second chances.</p>
+        </div>
+
+        <span class="market-label">
+            ✦ CAMPUS PICKS
+        </span>
+
+    </div>
+
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+        <article class="product-card reveal">
+
+            <div class="product-image">
+
+                <img
+                    src="{{ product.image }}"
+                    alt="{{ product.name }}"
+                    loading="lazy"
+                >
+
+                <span class="product-mode">
+                    {{ product.mode }}
+                </span>
+
+                <span class="image-category">
+                    {{ product.category }}
+                </span>
+
+            </div>
+
+
+            <div class="product-details">
+
+                <span class="product-condition">
+                    {{ product.condition }}
+                </span>
+
+                <h3>{{ product.name }}</h3>
+
+                <div class="product-bottom">
+
+                    <div>
+                        <span class="price-label">STARTING AT</span>
+                        <strong>₹{{ product.price }}</strong>
+                    </div>
+
+                    <span class="product-arrow">↗</span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<!-- SEMESTER KIT BANNER -->
+
+<section class="kit-section reveal">
+
+    <div class="kit-content">
+
+        <span class="eyebrow">YOUR SEMESTER. YOUR ESSENTIALS.</span>
+
+        <h2>
+            One semester.<br>
+            <span class="gradient-text">One smart kit.</span>
+        </h2>
+
+        <p>
+            Stop searching for essentials one by one.
+            Get a curated list based on your course,
+            branch and semester.
+        </p>
+
+        <a href="#features" class="primary-btn">
+            Discover Smart Kits ↗
+        </a>
+
+    </div>
+
+    <div class="kit-visual">
+
+        <img
+            src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=1000&q=85&fit=crop"
+            alt="Student laptop and study workspace"
+            loading="lazy"
+        >
+
+        <div class="kit-glass-label">
+            <span>✦</span>
+            YOUR ACADEMIC COMPANION
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FINAL CTA -->
+
+<section class="final-cta reveal">
+
+    <span class="eyebrow">YOUR CAMPUS IS FULL OF POSSIBILITIES</span>
+
+    <h2>
+        Make things move.<br>
+        <span class="gradient-text">Pass them on.</span>
+    </h2>
+
+    <p>
+        A smarter student community begins with one exchange.
+    </p>
+
+    <a href="#marketplace" class="primary-btn">
+        Explore CampusCart ↗
+    </a>
+
+</section>
+
+{% endblock %}

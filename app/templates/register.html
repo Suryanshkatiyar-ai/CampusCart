@@ -1,0 +1,92 @@
+
+{% extends "base.html" %}
+
+{% block title %}Join CampusCart{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="auth-card">
+
+        <span class="eyebrow">JOIN YOUR CAMPUS COMMUNITY</span>
+
+        <h1>Create your <span class="gradient-text">account.</span></h1>
+
+        <p class="auth-subtitle">
+            Your campus marketplace starts here.
+        </p>
+
+        <form method="POST" action="{{ url_for('main.register') }}">
+
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <label>Full Name</label>
+            <input
+                type="text"
+                name="full_name"
+                placeholder="Enter your full name"
+                maxlength="100"
+                autocomplete="name"
+                required
+            >
+
+            <label>College Email</label>
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                maxlength="150"
+                autocomplete="email"
+                required
+            >
+
+            <label>College / University Name</label>
+            <input
+                type="text"
+                name="college"
+                placeholder="Enter your college name"
+                maxlength="150"
+                required
+            >
+
+            <label>Password</label>
+            <input
+                type="password"
+                name="password"
+                placeholder="Minimum 8 characters"
+                minlength="8"
+                autocomplete="new-password"
+                required
+            >
+
+            <label>Confirm Password</label>
+            <input
+                type="password"
+                name="confirm_password"
+                placeholder="Enter password again"
+                minlength="8"
+                autocomplete="new-password"
+                required
+            >
+
+            <button type="submit" class="auth-submit">
+                Create Account ↗
+            </button>
+
+        </form>
+
+        <p class="auth-switch">
+            Already have an account?
+            <a href="{{ url_for('main.login') }}">Login</a>
+        </p>
+
+        <div class="verification-note">
+            ✦ New student accounts are initially marked as pending verification.
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

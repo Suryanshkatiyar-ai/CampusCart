@@ -60,6 +60,18 @@ class User(UserMixin, db.Model):
         cascade="all, delete-orphan"
     )
 
+    cart_items = db.relationship(
+        "CartItem",
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
+    orders = db.relationship(
+        "Order",
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
     def __repr__(self):
         return f"<User {self.email}>"
 
@@ -98,6 +110,11 @@ class Listing(db.Model):
     image_url = db.Column(db.String(500), nullable=True)
 
     is_active = db.Column(db.Boolean, default=True, nullable=False)
+    moderation_status = db.Column(
+    db.String(20),
+    nullable=False,
+    default="PENDING"
+)
 
     created_at = db.Column(
         db.DateTime(timezone=True),
@@ -108,6 +125,12 @@ class Listing(db.Model):
     seller = db.relationship(
         "User",
         back_populates="listings"
+    )
+
+    cart_items = db.relationship(
+        "CartItem",
+        back_populates="listing",
+        cascade="all, delete-orphan"
     )
 
     def __repr__(self):
@@ -157,3 +180,143 @@ class ProductRequest(db.Model):
 
     def __repr__(self):
         return f"<ProductRequest {self.title}>"
+
+# ======================================
+# CART ITEMS TABLE
+# ======================================
+
+class CartItem(db.Model):
+
+    __tablename__ = "cart_items"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("users.id"),
+        nullable=False
+    )
+
+    listing_id = db.Column(
+        db.Integer,
+        db.ForeignKey("listings.id"),
+        nullable=False
+    )
+
+    added_at = db.Column(
+        db.DateTime(timezone=True),
+        default=current_time,
+        nullable=False
+    )
+
+    __table_args__ = (
+        db.UniqueConstraint(
+            "user_id",
+            "listing_id",
+            name="unique_cart_listing"
+        ),
+    )
+
+    user = db.relationship(
+        "User",
+        back_populates="cart_items"
+    )
+
+    listing = db.relationship(
+        "Listing",
+        back_populates="cart_items"
+    )
+
+
+# ======================================
+# ORDERS TABLE
+# ======================================
+
+class Order(db.Model):
+
+    __tablename__ = "orders"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("users.id"),
+        nullable=False
+    )
+
+    total_amount = db.Column(
+        db.Numeric(10, 2),
+        nullable=False
+    )
+
+    status = db.Column(
+        db.String(30),
+        nullable=False,
+        default="PLACED"
+    )
+
+    fulfillment_method = db.Column(
+        db.String(30),
+        nullable=False,
+        default="CAMPUS_PICKUP"
+    )
+
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        default=current_time,
+        nullable=False
+    )
+
+    user = db.relationship(
+        "User",
+        back_populates="orders"
+    )
+
+    items = db.relationship(
+        "OrderItem",
+        back_populates="order",
+        cascade="all, delete-orphan"
+    )
+
+
+# ======================================
+# ORDER ITEMS TABLE
+# ======================================
+
+class OrderItem(db.Model):
+
+    __tablename__ = "order_items"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    order_id = db.Column(
+        db.Integer,
+        db.ForeignKey("orders.id"),
+        nullable=False
+    )
+
+    listing_id = db.Column(
+        db.Integer,
+        db.ForeignKey("listings.id"),
+        nullable=True
+    )
+
+    product_title = db.Column(
+        db.String(120),
+        nullable=False
+    )
+
+    listing_type = db.Column(
+        db.String(20),
+        nullable=False
+    )
+
+    price = db.Column(
+        db.Numeric(10, 2),
+        nullable=False
+    )
+
+    order = db.relationship(
+        "Order",
+        back_populates="items"
+    )

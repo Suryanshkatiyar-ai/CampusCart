@@ -1,58 +1,132 @@
 
 {% extends "base.html" %}
 
-{% block title %}My Dashboard | CampusCart{% endblock %}
+{% block title %}
+My Dashboard | CampusCart
+{% endblock %}
 
 {% block content %}
 
 <section class="dashboard-section">
 
-    <div class="dashboard-welcome">
 
-        <span class="eyebrow">YOUR CAMPUS SPACE</span>
+    <!-- WELCOME SECTION -->
+
+    <div class="dashboard-welcome reveal">
+
+        <span class="eyebrow">
+            YOUR CAMPUS SPACE
+        </span>
 
         <h1>
             Hey, <span class="gradient-text">{{ user.full_name }}</span>!
         </h1>
 
-        <p>Welcome to your personal CampusCart dashboard.</p>
+        <p>
+            Welcome to your personal CampusCart dashboard.
+            Your campus marketplace starts here.
+        </p>
 
     </div>
 
 
+    <!-- QUICK STATISTICS -->
+
+    <div class="dashboard-stats">
+
+        <!-- LISTINGS COUNT -->
+
+        <div class="dashboard-stat-card reveal">
+
+            <span class="dashboard-icon">🛍️</span>
+
+            <div>
+                <strong>{{ user.listings|length }}</strong>
+                <p>My Listings</p>
+            </div>
+
+        </div>
+
+
+        <!-- CART COUNT -->
+
+        <div class="dashboard-stat-card reveal">
+
+            <span class="dashboard-icon">🛒</span>
+
+            <div>
+                <strong>{{ user.cart_items|length }}</strong>
+                <p>Cart Items</p>
+            </div>
+
+        </div>
+
+
+        <!-- ORDERS COUNT -->
+
+        <div class="dashboard-stat-card reveal">
+
+            <span class="dashboard-icon">📦</span>
+
+            <div>
+                <strong>{{ user.orders|length }}</strong>
+                <p>My Orders</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROFILE DASHBOARD -->
+
     <div class="dashboard-grid">
 
-        <div class="dashboard-card">
+
+        <!-- STUDENT PROFILE -->
+
+        <div class="dashboard-card reveal">
 
             <span class="dashboard-icon">👤</span>
 
             <h3>Student Profile</h3>
 
             <p>{{ user.full_name }}</p>
+
             <p>{{ user.email }}</p>
+
             <p>{{ user.college }}</p>
 
         </div>
 
 
-        <div class="dashboard-card">
+        <!-- ACCOUNT ROLE -->
+
+        <div class="dashboard-card reveal">
 
             <span class="dashboard-icon">✦</span>
 
             <h3>Account Role</h3>
 
-            <p class="role-label">{{ user.role|upper }}</p>
+            <p class="role-label">
+                {{ user.role|upper }}
+            </p>
 
-            <p>Your account has student-level access.</p>
+            <p>
+                Your account has student-level access.
+            </p>
 
         </div>
 
 
-        <div class="dashboard-card">
+        <!-- VERIFICATION STATUS -->
+
+        <div class="dashboard-card reveal">
 
             <span class="dashboard-icon">🛡️</span>
 
             <h3>Verification Status</h3>
+
 
             {% if user.is_verified %}
 
@@ -60,37 +134,163 @@
                     ✓ Verified
                 </span>
 
+                <p>
+                    Your student account is verified.
+                </p>
+
             {% else %}
 
                 <span class="status-pending">
                     ◷ Pending Verification
                 </span>
 
-                <p>Your account is awaiting verification.</p>
+                <p>
+                    Your account is awaiting verification.
+                </p>
 
             {% endif %}
+
+        </div>
+
+
+    </div>
+
+
+    <!-- MAIN DASHBOARD ACTIONS -->
+
+    <div class="dashboard-action reveal">
+
+        <span class="eyebrow">
+            WHAT WOULD YOU LIKE TO DO?
+        </span>
+
+        <h2>Ready to explore?</h2>
+
+        <p>
+            Discover books, electronics and campus essentials.
+            Buy, sell, rent and share with your campus community.
+        </p>
+
+
+        <!-- PRIMARY ACTIONS -->
+
+        <div class="dashboard-buttons">
+
+            <a href="{{ url_for('main.home') }}#marketplace"
+               class="primary-btn">
+
+                Explore Marketplace ↗
+
+            </a>
+
+
+            <a href="{{ url_for('main.create_listing') }}"
+               class="glass-btn">
+
+                + Post an Item
+
+            </a>
+
+        </div>
+
+
+        <!-- SECONDARY SHORTCUTS -->
+
+        <div class="dashboard-shortcuts">
+
+
+            <!-- CART -->
+
+            <a href="{{ url_for('main.cart') }}"
+               class="dashboard-shortcut">
+
+                <span>🛒</span>
+
+                <div>
+                    <strong>My Cart</strong>
+                    <p>View your selected products.</p>
+                </div>
+
+                <span class="shortcut-arrow">↗</span>
+
+            </a>
+
+
+            <!-- ORDERS -->
+
+            <a href="{{ url_for('main.orders') }}"
+               class="dashboard-shortcut">
+
+                <span>📦</span>
+
+                <div>
+                    <strong>My Orders</strong>
+                    <p>Track your purchases and reservations.</p>
+                </div>
+
+                <span class="shortcut-arrow">↗</span>
+
+            </a>
+
+
+            <!-- SMART KITS -->
+
+            <a href="{{ url_for('main.semester_kits') }}"
+               class="dashboard-shortcut">
+
+                <span>✦</span>
+
+                <div>
+                    <strong>Smart Semester Kits</strong>
+                    <p>Generate your personalized study kit.</p>
+                </div>
+
+                <span class="shortcut-arrow">↗</span>
+
+            </a>
+
+
+            <!-- WANTED PRODUCTS -->
+
+            <a href="{{ url_for('main.wanted_board') }}"
+               class="dashboard-shortcut">
+
+                <span>⌕</span>
+
+                <div>
+                    <strong>Wanted Products</strong>
+                    <p>Find or request products from students.</p>
+                </div>
+
+                <span class="shortcut-arrow">↗</span>
+
+            </a>
+
 
         </div>
 
     </div>
 
 
-    <div class="dashboard-action">
+    <!-- BOTTOM INFORMATION -->
 
-        <h2>Ready to explore?</h2>
+    <div class="dashboard-bottom reveal">
 
-        <p>Discover books, electronics and campus essentials.</p>
+        <span>✦</span>
 
-        <a href="{{ url_for('main.home') }}#marketplace"
-           class="primary-btn">
-            Explore Marketplace ↗
-        </a>
-        <a href="{{ url_for('main.create_listing') }}"
-   class="glass-btn">
-    + Post an Item
-</a>
+        <div>
+
+            <h3>Make campus life smarter.</h3>
+
+            <p>
+                Reuse more. Save more. Share more.
+                Welcome to the CampusCart community.
+            </p>
+
+        </div>
 
     </div>
+
 
 </section>
 

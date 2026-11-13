@@ -3,10 +3,16 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>{% block title %}CampusCart{% endblock %}</title>
+
+    <meta name="description"
+          content="CampusCart is a student-exclusive marketplace to buy, sell, rent, borrow and exchange campus essentials.">
+
+    <!-- GOOGLE FONTS -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,41 +20,101 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
 
+
+    <!-- MAIN CSS -->
+
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+          href="{{ url_for('static', filename='css/style.css') }}?v=2">
+
+
+    <!-- MAIN JAVASCRIPT -->
 
     <script src="{{ url_for('static', filename='js/main.js') }}"
             defer></script>
+
 </head>
 
+
 <body>
+
+    <!-- ANIMATED BACKGROUND -->
 
     <div class="ambient ambient-one"></div>
     <div class="ambient ambient-two"></div>
     <div class="ambient ambient-three"></div>
 
-    
-<header class="site-header">
 
-    <a href="{{ url_for('main.home') }}" class="brand">
-        <span class="brand-icon">C</span>
-        Campus<span>Cart.</span>
-    </a>
+    <!-- NAVIGATION BAR -->
 
-    <nav>
-        <a href="{{ url_for('main.home') }}#marketplace">Explore</a>
-        <a href="{{ url_for('main.home') }}#features">Features</a>
-        <a href="{{ url_for('main.home') }}#smart-kits">Semester Kits</a>
-    </nav>
+    <header class="site-header">
 
-    {% if current_user.is_authenticated %}
+        <!-- LOGO -->
+
+        <a href="{{ url_for('main.home') }}"
+           class="brand">
+
+            <span class="brand-icon">C</span>
+
+            Campus<span>Cart.</span>
+
+        </a>
+
+
+        <!-- NAVIGATION LINKS -->
+
+        <nav>
+
+            <a href="{{ url_for('main.home') }}#marketplace">
+                Explore
+            </a>
+
+            <a href="{{ url_for('main.home') }}#features">
+                Features
+            </a>
+
+            <a href="{{ url_for('main.semester_kits') }}">
+                Smart Kits ✦
+            </a>
+
+            <a href="{{ url_for('main.wanted_board') }}">
+                Wanted Board
+            </a>
+
+        </nav>
+
+
+        <!-- AUTHENTICATED USER -->
+
+        {% if current_user.is_authenticated %}
 
         <div class="auth-nav">
 
+            <a href="{{ url_for('main.cart') }}"
+               class="login-link">
+                Cart 🛒
+            </a>
+
+            <a href="{{ url_for('main.orders') }}"
+               class="login-link">
+                Orders
+            </a>
+
             <a href="{{ url_for('main.dashboard') }}"
                class="nav-button">
-                My Dashboard ↗
+                Dashboard ↗
             </a>
+
+{% if current_user.role == 'admin' %}
+
+    <a href="{{ url_for('main.admin_dashboard') }}"
+       class="nav-button">
+        Admin Panel ⚙
+    </a>
+
+{% endif %}
+
+
+            <!-- LOGOUT -->
 
             <form method="POST"
                   action="{{ url_for('main.logout') }}">
@@ -65,57 +131,85 @@
 
         </div>
 
-    {% else %}
+
+        <!-- GUEST USER -->
+
+        {% else %}
 
         <div class="auth-nav">
 
-            <a href="{{ url_for('main.login') }}" class="login-link">
+            <a href="{{ url_for('main.login') }}"
+               class="login-link">
                 Login
             </a>
 
-            <a href="{{ url_for('main.register') }}" class="nav-button">
+            <a href="{{ url_for('main.register') }}"
+               class="nav-button">
                 Join CampusCart ↗
             </a>
 
         </div>
 
-    {% endif %}
+        {% endif %}
 
-</header>
-<div class="flash-container">
+    </header>
+
+
+    <!-- FLASH MESSAGES -->
 
     {% with messages = get_flashed_messages(with_categories=true) %}
 
-        {% for category, message in messages %}
+        {% if messages %}
 
-            <div class="flash-message {{ category }}">
-                {{ message }}
+            <div class="flash-container">
+
+                {% for category, message in messages %}
+
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
             </div>
 
-        {% endfor %}
+        {% endif %}
 
     {% endwith %}
 
-</div>
+
+    <!-- MAIN CONTENT -->
 
     <main>
+
         {% block content %}{% endblock %}
+
     </main>
+
+
+    <!-- FOOTER -->
 
     <footer class="footer">
 
-        <a href="/" class="brand">
+        <a href="{{ url_for('main.home') }}"
+           class="brand">
+
             <span class="brand-icon">C</span>
+
             Campus<span>Cart.</span>
+
         </a>
 
-        <p>Pass it on. Make campus life smarter.</p>
+        <p>
+            Pass it on. Make campus life smarter.
+        </p>
 
         <span class="footer-copy">
             © 2026 CampusCart. Built for campus communities.
         </span>
 
     </footer>
+
 
 </body>
 </html>

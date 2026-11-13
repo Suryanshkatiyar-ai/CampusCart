@@ -8,7 +8,6 @@ CampusCart | Smart Campus Marketplace
 {% block content %}
 
 <!-- HERO SECTION -->
-
 <section class="hero">
 
     <div class="hero-copy reveal">
@@ -67,7 +66,7 @@ CampusCart | Smart Campus Marketplace
 
             <img
                 src="https://burst.shopifycdn.com/photos/school-supplies-knolling.jpg?width=1400&format=pjpg"
-                alt="Real student study essentials"
+                alt="Student study essentials"
                 class="hero-photo"
             >
 
@@ -133,7 +132,10 @@ CampusCart | Smart Campus Marketplace
 <section class="features-section" id="features">
 
     <div class="section-heading reveal">
-        <span class="eyebrow">NOT JUST ANOTHER SHOPPING SITE</span>
+
+        <span class="eyebrow">
+            NOT JUST ANOTHER SHOPPING SITE
+        </span>
 
         <h2>
             A smarter way to<br>
@@ -144,10 +146,13 @@ CampusCart | Smart Campus Marketplace
             One platform. More possibilities.
             Built around how students actually live.
         </p>
+
     </div>
 
 
     <div class="feature-grid">
+
+        <!-- BUY AND SELL -->
 
         <article class="feature-card reveal">
 
@@ -163,10 +168,14 @@ CampusCart | Smart Campus Marketplace
                 and campus essentials a new owner.
             </p>
 
-            <span class="feature-link">Explore listings ↗</span>
+            <a href="#marketplace" class="feature-link">
+                Explore listings ↗
+            </a>
 
         </article>
 
+
+        <!-- RENT AND BORROW -->
 
         <article class="feature-card reveal">
 
@@ -182,10 +191,14 @@ CampusCart | Smart Campus Marketplace
                 Rent or borrow instead of buying.
             </p>
 
-            <span class="feature-link">Share resources ↗</span>
+            <a href="#marketplace" class="feature-link">
+                Share resources ↗
+            </a>
 
         </article>
 
+
+        <!-- SMART SEMESTER KITS -->
 
         <article class="feature-card reveal" id="smart-kits">
 
@@ -201,10 +214,15 @@ CampusCart | Smart Campus Marketplace
                 for your academic essentials.
             </p>
 
-            <span class="feature-link">Build your kit ↗</span>
+            <a href="{{ url_for('main.semester_kits') }}"
+               class="feature-link">
+                Build your kit ↗
+            </a>
 
         </article>
 
+
+        <!-- WANTED PRODUCTS -->
 
         <article class="feature-card reveal">
 
@@ -220,7 +238,10 @@ CampusCart | Smart Campus Marketplace
                 and match with other students.
             </p>
 
-            <span class="feature-link">Find your match ↗</span>
+            <a href="{{ url_for('main.wanted_board') }}"
+               class="feature-link">
+                Find your match ↗
+            </a>
 
         </article>
 
@@ -229,41 +250,146 @@ CampusCart | Smart Campus Marketplace
 </section>
 
 
-<!-- MARKETPLACE -->
+<!-- LIVE MARKETPLACE -->
 
 <section class="marketplace-section" id="marketplace">
 
     <div class="market-heading reveal">
 
         <div>
-            <span class="eyebrow">HANDPICKED FOR STUDENTS</span>
-            <h2>Explore the <span class="gradient-text">market.</span></h2>
-            <p>Useful things. Better prices. Second chances.</p>
+
+            <span class="eyebrow">
+                STUDENT-TO-STUDENT MARKETPLACE
+            </span>
+
+            <h2>
+                Explore the <span class="gradient-text">market.</span>
+            </h2>
+
+            <p>
+                Discover products listed by your campus community.
+            </p>
+
         </div>
 
-        <span class="market-label">
-            ✦ CAMPUS PICKS
-        </span>
+        <a href="{{ url_for('main.create_listing') if current_user.is_authenticated else url_for('main.login') }}"
+           class="primary-btn">
+            + Post an Item
+        </a>
 
     </div>
 
+
+    <!-- SEARCH AND FILTER -->
+
+    <form class="market-search reveal"
+          method="GET"
+          action="{{ url_for('main.home') }}">
+
+        <div class="search-input-wrap">
+
+            <span>⌕</span>
+
+            <input
+                type="search"
+                name="q"
+                value="{{ search }}"
+                placeholder="Search books, calculators, electronics..."
+            >
+
+        </div>
+
+
+        <select name="category">
+
+            <option value="">All Categories</option>
+
+            <option value="Books"
+                {% if selected_category == 'Books' %}selected{% endif %}>
+                Books
+            </option>
+
+            <option value="Electronics"
+                {% if selected_category == 'Electronics' %}selected{% endif %}>
+                Electronics
+            </option>
+
+            <option value="Stationery"
+                {% if selected_category == 'Stationery' %}selected{% endif %}>
+                Stationery
+            </option>
+
+            <option value="Lab Essentials"
+                {% if selected_category == 'Lab Essentials' %}selected{% endif %}>
+                Lab Essentials
+            </option>
+
+            <option value="Other"
+                {% if selected_category == 'Other' %}selected{% endif %}>
+                Other
+            </option>
+
+        </select>
+
+
+        <button type="submit" class="search-btn">
+            Search ↗
+        </button>
+
+    </form>
+
+
+    <!-- PRODUCT RESULTS -->
+
+    <div class="market-results-heading">
+
+        <span>
+            {{ products|length }} listing(s) found
+        </span>
+
+        {% if search or selected_category %}
+
+            <a href="{{ url_for('main.home') }}">
+                Clear filters ✕
+            </a>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- PRODUCT GRID -->
 
     <div class="product-grid">
 
         {% for product in products %}
 
-        <article class="product-card reveal">
+        <a href="{{ url_for('main.listing_detail', listing_id=product.id) }}"
+           class="product-card reveal">
 
             <div class="product-image">
 
-                <img
-                    src="{{ product.image }}"
-                    alt="{{ product.name }}"
-                    loading="lazy"
-                >
+                {% if product.image_url %}
+
+                    <img
+                        src="{{ product.image_url }}"
+                        alt="{{ product.title }}"
+                        loading="lazy"
+                    >
+
+                {% else %}
+
+                    <img
+                        src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=900&q=85"
+                        alt="Campus product"
+                        loading="lazy"
+                    >
+
+                {% endif %}
+
 
                 <span class="product-mode">
-                    {{ product.mode }}
+                    {{ product.listing_type }}
                 </span>
 
                 <span class="image-category">
@@ -279,13 +405,40 @@ CampusCart | Smart Campus Marketplace
                     {{ product.condition }}
                 </span>
 
-                <h3>{{ product.name }}</h3>
+                <h3>{{ product.title }}</h3>
+
+                <div class="listing-seller">
+                    Listed by {{ product.seller.full_name }}
+                </div>
+
 
                 <div class="product-bottom">
 
                     <div>
-                        <span class="price-label">STARTING AT</span>
-                        <strong>₹{{ product.price }}</strong>
+
+                        <span class="price-label">
+
+                            {% if product.listing_type == 'RENT' %}
+                                RENTAL PRICE
+                            {% elif product.listing_type == 'BORROW' %}
+                                BORROW FOR
+                            {% else %}
+                                SELLING PRICE
+                            {% endif %}
+
+                        </span>
+
+
+                        <strong>
+
+                            {% if product.listing_type == 'BORROW' %}
+                                FREE
+                            {% else %}
+                                ₹{{ product.price }}
+                            {% endif %}
+
+                        </strong>
+
                     </div>
 
                     <span class="product-arrow">↗</span>
@@ -294,7 +447,58 @@ CampusCart | Smart Campus Marketplace
 
             </div>
 
-        </article>
+        </a>
+
+
+        {% else %}
+
+        <!-- EMPTY MARKETPLACE -->
+
+        <div class="empty-market">
+
+            <span>⌕</span>
+
+            <h3>No listings found</h3>
+
+            <p>
+
+                {% if search or selected_category %}
+
+                    Try another search or remove your filters.
+
+                {% else %}
+
+                    Be the first student to list something on CampusCart.
+
+                {% endif %}
+
+            </p>
+
+
+            {% if search or selected_category %}
+
+                <a href="{{ url_for('main.home') }}"
+                   class="glass-btn">
+                    Clear Filters
+                </a>
+
+            {% elif current_user.is_authenticated %}
+
+                <a href="{{ url_for('main.create_listing') }}"
+                   class="primary-btn">
+                    Post First Item ↗
+                </a>
+
+            {% else %}
+
+                <a href="{{ url_for('main.register') }}"
+                   class="primary-btn">
+                    Join CampusCart ↗
+                </a>
+
+            {% endif %}
+
+        </div>
 
         {% endfor %}
 
@@ -303,13 +507,15 @@ CampusCart | Smart Campus Marketplace
 </section>
 
 
-<!-- SEMESTER KIT BANNER -->
+<!-- SMART SEMESTER KIT BANNER -->
 
 <section class="kit-section reveal">
 
     <div class="kit-content">
 
-        <span class="eyebrow">YOUR SEMESTER. YOUR ESSENTIALS.</span>
+        <span class="eyebrow">
+            YOUR SEMESTER. YOUR ESSENTIALS.
+        </span>
 
         <h2>
             One semester.<br>
@@ -322,11 +528,13 @@ CampusCart | Smart Campus Marketplace
             branch and semester.
         </p>
 
-        <a href="#features" class="primary-btn">
+        <a href="{{ url_for('main.semester_kits') }}"
+           class="primary-btn">
             Discover Smart Kits ↗
         </a>
 
     </div>
+
 
     <div class="kit-visual">
 
@@ -346,11 +554,38 @@ CampusCart | Smart Campus Marketplace
 </section>
 
 
+<!-- WANTED PRODUCTS BANNER -->
+
+<section class="wanted-home-banner reveal">
+
+    <div>
+        <span class="eyebrow">CAN'T FIND WHAT YOU NEED?</span>
+
+        <h2>
+            Ask your <span class="gradient-text">campus.</span>
+        </h2>
+
+        <p>
+            Post a product request and discover matching
+            listings from other students.
+        </p>
+    </div>
+
+    <a href="{{ url_for('main.wanted_board') }}"
+       class="primary-btn">
+        Explore Wanted Board ↗
+    </a>
+
+</section>
+
+
 <!-- FINAL CTA -->
 
 <section class="final-cta reveal">
 
-    <span class="eyebrow">YOUR CAMPUS IS FULL OF POSSIBILITIES</span>
+    <span class="eyebrow">
+        YOUR CAMPUS IS FULL OF POSSIBILITIES
+    </span>
 
     <h2>
         Make things move.<br>
